@@ -181,10 +181,10 @@ const MovieList = props => {
 
 const MovieItem = props => {
   return (
-    <div className="flex flex-col w-full h-full rounded-lg shadow-md lg:max-w-sm transform transition duration-500 hover:scale-110">
+    <div className="flex flex-col w-full h-full rounded-xl shadow-md lg:max-w-sm transform transition duration-500 hover:scale-110">
       <div className="grow">
         <img
-          className="object-cover w-full h-60 md:h-80"
+          className="object-cover w-full h-60 md:h-80 rounded-xl"
           src={props.image}
           alt={props.title}
           loading="lazy"
