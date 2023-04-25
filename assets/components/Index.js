@@ -98,11 +98,12 @@ const Menutendina = props => {
 
 const Layout = props => {
   return (
-    <section className="bg-gradient-to-r from-blue-700 via-blue-800 to-gray-900 to-pink-400 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700">
+    <section className="bg-gradient-to-r from-blue-900 via-blue-800 to-gray-900 to-violet-950 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700">
       <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
         {props.children}
       </div>
     </section>
+    
   );
 };
 
