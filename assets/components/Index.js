@@ -111,11 +111,9 @@ const Layout = props => {
 const Heading = props => {
   return (
     <div className="mx-auto max-w-screen-sm text-center mb-5">
-      <Link>
-        <h1 className="mb-4 text-4xl tracking-tight font-extrabold dark:text-white">
-          La nostra collezione film
+        <h1 className="mb-4 text-4xl tracking-tight text-orange-500 dark:text-white transform transition duration-500 hover:scale-150">
+          La nostra collezione film!
         </h1>
-      </Link>
       <p className="font-light text-gray-100 sm:text-xl dark:text-gray-400">
         Esplora tutti i film nel catalogo!
       </p>
