@@ -103,7 +103,7 @@ const Layout = props => {
         {props.children}
       </div>
     </section>
-    
+
   );
 };
 
@@ -115,7 +115,7 @@ const Heading = props => {
         <h1 className="mb-4 text-4xl tracking-tight font-extrabold dark:text-white">
           La nostra collezione film
         </h1>
-      </Link> 
+      </Link>
       <p className="font-light text-gray-100 sm:text-xl dark:text-gray-400">
         Esplora tutti i film nel catalogo!
       </p>
@@ -181,7 +181,7 @@ const MovieList = props => {
 
 const MovieItem = props => {
   return (
-    <div className="flex flex-col w-full h-full rounded-lg shadow-md lg:max-w-sm">
+    <div className="flex flex-col w-full h-full rounded-lg shadow-md lg:max-w-sm transform transition duration-500 hover:scale-110">
       <div className="grow">
         <img
           className="object-cover w-full h-60 md:h-80"
