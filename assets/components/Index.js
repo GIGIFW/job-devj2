@@ -1,5 +1,8 @@
+
 import React, { useEffect, useState } from 'react';
-import { Button, Rating, Spinner } from 'flowbite-react';
+import { Button, Rating, Spinner, Dropdown } from 'flowbite-react';
+import { Link } from 'react-router-dom';
+
 
 const Index = props => {
   const [movies, setMovies] = useState([]);
@@ -8,12 +11,7 @@ const Index = props => {
   const fetchMovies = () => {
     setLoading(true);
 
-    return fetch('/api/movies')
-      .then(response => response.json())
-      .then(data => {
-        setMovies(data.movies);
-        setLoading(false);
-      });
+    return ordinaDecrescente(setMovies, setLoading)
   }
 
   useEffect(() => {
@@ -22,8 +20,13 @@ const Index = props => {
 
   return (
     <Layout>
-      <Heading />
-
+      <div className="flex">
+        <Heading />
+        <div className="p-4">
+          <Menutendina setMovies={setMovies} setLoading={setLoading} />
+        </div>
+      </div>
+      <BottoniSelezioneFilm setMovies={setMovies} setLoading={setLoading} />
       <MovieList loading={loading}>
         {movies.map((item, key) => (
           <MovieItem key={key} {...item} />
@@ -33,9 +36,69 @@ const Index = props => {
   );
 };
 
+const ordinaCrescente = (setMovies, setLoading) => {
+  setLoading(true);
+  fetch('http://localhost/api/movies/crescente')
+    .then(response => response.json())
+    .then(data => {
+      setMovies(data.movies);
+      setLoading(false);
+    });
+}
+
+const ordinaDecrescente = (setMovies, setLoading) => {
+  setLoading(true)
+  fetch('http://localhost/api/movies/decrescente')
+    .then(response => response.json())
+    .then(data => {
+      setMovies(data.movies);
+      setLoading(false);
+    });
+}
+
+const OrdinaRating = (setMovies, setLoading) => {
+  setLoading(true)
+  fetch('http://localhost/api/movies/rating')
+    .then(response => response.json())
+    .then(data => {
+      setMovies(data.movies);
+      setLoading(false);
+    });
+}
+
+const filtra = (setMovies, setLoading, genere) => {
+  setLoading(true)
+  fetch(`http://localhost/api/movies/filter?filtro=${genere}`)
+    .then(response => response.json())
+    .then(data => {
+      console.log(data.movies, ' roba');
+      setMovies(data.movies);
+      setLoading(false);
+    });
+}
+
+const Menutendina = props => {
+  const { setMovies, setLoading } = props;
+  return (
+    <div className='w-100'>
+      <Dropdown label="Ordina per:" dismissOnClick={false}>
+        <Dropdown.Item onClick={() => { ordinaCrescente(setMovies, setLoading) }}>
+          Crescente
+        </Dropdown.Item>
+        <Dropdown.Item onClick={() => { ordinaDecrescente(setMovies, setLoading) }}>
+          Decrescente
+        </Dropdown.Item>
+        <Dropdown.Item onClick={() => { OrdinaRating(setMovies, setLoading) }}>
+          I più votati
+        </Dropdown.Item>
+      </Dropdown>
+    </div>
+  );
+}
+
 const Layout = props => {
   return (
-    <section className="bg-white dark:bg-gray-900">
+    <section className="bg-gradient-to-r from-blue-700 via-blue-800 to-gray-900 to-pink-400 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700">
       <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
         {props.children}
       </div>
@@ -43,19 +106,61 @@ const Layout = props => {
   );
 };
 
+
 const Heading = props => {
   return (
-    <div className="mx-auto max-w-screen-sm text-center mb-8 lg:mb-16">
-      <h1 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
-        Movie Collection
-      </h1>
-
-      <p className="font-light text-gray-500 lg:mb-16 sm:text-xl dark:text-gray-400">
-        Explore the whole collection of movies
+    <div className="mx-auto max-w-screen-sm text-center mb-5">
+      <Link>
+        <h1 className="mb-4 text-4xl tracking-tight font-extrabold dark:text-white">
+          La nostra collezione film
+        </h1>
+      </Link> 
+      <p className="font-light text-gray-100 sm:text-xl dark:text-gray-400">
+        Esplora tutti i film nel catalogo!
       </p>
     </div>
   );
 };
+
+const BottoniSelezioneFilm = props => {
+  const { setMovies, setLoading } = props;
+  return (
+    <div className='my-5'>
+      <Button.Group outline={true}>
+        <Button gradientMonochrome="info" onClick={() => { filtra(setMovies, setLoading, 'Comedy') }}>
+          Genere Commedia
+        </Button>
+        <Button gradientMonochrome="info" onClick={() => { filtra(setMovies, setLoading, 'Action') }}>
+          Genere Azione
+        </Button>
+        <Button gradientMonochrome="info" onClick={() => { filtra(setMovies, setLoading, 'Adventure') }}>
+          Genere Avventura
+        </Button>
+        <Button gradientMonochrome="info" onClick={() => { filtra(setMovies, setLoading, 'Fantasy') }}>
+          Genere Fantasy
+        </Button>
+        <Button gradientMonochrome="info" onClick={() => { filtra(setMovies, setLoading, 'Romance') }}>
+          Genere Romance
+        </Button>
+        <Button gradientMonochrome="info" onClick={() => { filtra(setMovies, setLoading, 'Drama') }}>
+          Genere Drammatico
+        </Button>
+        <Button gradientMonochrome="info" onClick={() => { filtra(setMovies, setLoading, 'History') }}>
+          Genere Storia
+        </Button>
+        <Button gradientMonochrome="info" onClick={() => { filtra(setMovies, setLoading, 'Crime') }}>
+          Genere Crime
+        </Button>
+        <Button gradientMonochrome="info" onClick={() => { filtra(setMovies, setLoading, 'Horror') }}>
+          Genere Horror
+        </Button>
+        <Button gradientMonochrome="info" onClick={() => { filtra(setMovies, setLoading, 'Mystery') }}>
+          Genere Mystery
+        </Button>
+      </Button.Group>
+    </div>
+  )
+}
 
 const MovieList = props => {
   if (props.loading) {
@@ -89,45 +194,45 @@ const MovieItem = props => {
         <div className="grow mb-3 last:mb-0">
           {props.year || props.rating
             ? <div className="flex justify-between align-middle text-gray-900 text-xs font-medium mb-2">
-                <span>{props.year}</span>
+              <span>{props.year}</span>
 
-                {props.rating
-                  ? <Rating>
-                      <Rating.Star />
-
-                      <span className="ml-0.5">
-                        {props.rating}
-                      </span>
-                    </Rating>
-                  : null
-                }
-              </div>
+              {props.rating
+                ? <Rating>
+                  <Rating.Star />
+                  <span className="ml-0.5">
+                    {props.rating}
+                  </span>
+                </Rating>
+                : null
+              }
+            </div>
             : null
           }
 
-          <h3 className="text-gray-900 text-lg leading-tight font-semibold mb-1">
+          <h3 className="text-orange-500 text-lg leading-tight font-semibold mb-1">
             {props.title}
           </h3>
 
-          <p className="text-gray-600 text-sm leading-normal mb-4 last:mb-0">
-            {props.plot.substr(0, 80)}...
+          <p className="text-white text-sm leading-normal mb-4 last:mb-0">
+            {props.plot.substr(0, 50)}...
           </p>
         </div>
 
         {props.wikipedia_url
           ? <Button
-              color="light"
-              size="xs"
-              className="w-full"
-              onClick={() => window.open(props.wikipedia_url, '_blank')}
-            >
-              More
-            </Button>
+            color="light"
+            size="xs"
+            className="w-full"
+            onClick={() => window.open(props.wikipedia_url, '_blank')}
+          >
+            More
+          </Button>
           : null
         }
       </div>
     </div>
   );
 };
+
 
 export default Index;
